@@ -87,7 +87,8 @@ dataset = sorted(dataset, key=lambda x: x['created_at'])
 
 evaluations_dir = "./swecomm_runs"
 evaluation_dir = f"{evaluations_dir}/{args.output_dir}"
-model = "gpt-4o"
+model = args.model
+print(f"Using model: {model}")
 
 def organize_identified_spans(identified_spans):
     concat_spans = ""

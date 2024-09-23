@@ -328,12 +328,14 @@ def get_before_after_code_with_context(instance: dict, patch, repo_base_dir: str
         if not filename:
             after_code += "# THIS FILE DOES NOT EXIST AFTER PATCHING"
         else:
-            
-            with open(f'{repo_dir}/{filename}', 'r') as f:
-                lines = f.readlines()
-                after_lines = lines[after_line_start-1:after_line_start+after_line_count-1]
-                numbered_lines = [f'{i+after_line_start}: {line}' for i, line in enumerate(after_lines)]
-                after_code += ''.join(numbered_lines)
+            try:
+                with open(f'{repo_dir}/{filename}', 'r') as f:
+                    lines = f.readlines()
+                    after_lines = lines[after_line_start-1:after_line_start+after_line_count-1]
+                    numbered_lines = [f'{i+after_line_start}: {line}' for i, line in enumerate(after_lines)]
+                    after_code += ''.join(numbered_lines)
+            except FileNotFoundError:
+                import pdb; pdb.set_trace()
         
         after_code += f'</after_file="b/{filename} start_line={after_line_start}">\n\n'
 
